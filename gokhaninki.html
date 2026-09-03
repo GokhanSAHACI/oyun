@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Gökhan'ınkinin Şekli</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background:
+        linear-gradient(
+            180deg,
+            #72c6ff 0%,
+            #c9f0ff 55%,
+            #70c45b 56%,
+            #3f9635 100%
+        );
+}
+
+#oyun {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Güneş */
+
+.gunes {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: #ffd43b;
+    right: 25px;
+    top: 25px;
+    box-shadow: 0 0 35px #fff176;
+}
+
+/* Başlık */
+
+.baslik {
+    position: relative;
+    z-index: 2;
+    padding: 25px 10px 0;
+}
+
+h1 {
+    margin: 0;
+    color: #173b20;
+    font-size: 28px;
+    text-shadow: 0 2px 0 rgba(255,255,255,.5);
+}
+
+.soru {
+    margin-top: 10px;
+    color: #244b2a;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Ağaçların olduğu alan */
+
+.agaclar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 105px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+
+    padding: 0 8px;
+}
+
+/* Ağaç seçeneği */
+
+.secim {
+    width: 31%;
+    max-width: 125px;
+    height: 310px;
+
+    border: 3px solid rgba(255,255,255,.7);
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.25);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 10px;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.18);
+
+    transition: transform .15s;
+}
+
+.secim:active {
+    transform: scale(.94);
+}
+
+/* Ağaç gövdesi */
+
+.govde {
+    background: #75451e;
+    border-radius: 8px 8px 4px 4px;
+    position: relative;
+}
+
+/* Cılız */
+
+.cilz .govde {
+    width: 22px;
+    height: 115px;
+}
+
+.cilz .tepe {
+    width: 90px;
+    height: 125px;
+}
+
+/* Orta */
+
+.orta .govde {
+    width: 43px;
+    height: 145px;
+}
+
+.orta .tepe {
+    width: 110px;
+    height: 145px;
+}
+
+/* Büyük */
+
+.buyuk .govde {
+    width: 70px;
+    height: 175px;
+}
+
+.buyuk .tepe {
+    width: 145px;
+    height: 175px;
+}
+
+/* Ağaç tepesi */
+
+.tepe {
+    position: relative;
+
+    background: #27833b;
+
+    border-radius:
+        50% 50% 45% 45%;
+
+    margin-bottom: -20px;
+
+    box-shadow:
+        inset -12px -10px 0 rgba(0,0,0,.08),
+        0 5px 8px rgba(0,0,0,.15);
+}
+
+/* Yaprak detayları */
+
+.tepe:before,
+.tepe:after {
+    content: "";
+    position: absolute;
+
+    width: 55%;
+    height: 55%;
+
+    background: #31994a;
+    border-radius: 50%;
+}
+
+.tepe:before {
+    left: -10px;
+    top: 25px;
+}
+
+.tepe:after {
+    right: -10px;
+    top: 45px;
+}
+
+/* Büyük ağacın EĞRİ DALI */
+
+.buyuk .govde:after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 105px;
+    height: 20px;
+
+    background: #75451e;
+
+    left: 35px;
+    top: 55px;
+
+    border-radius: 20px;
+
+    transform:
+        rotate(-18deg);
+
+    transform-origin: left center;
+
+    box-shadow:
+        45px -13px 0 -4px #75451e;
+}
+
+/* Ağaç isimleri */
+
+.ad {
+    margin-top: 18px;
+    color: #183b1e;
+
+    font-weight: bold;
+    font-size: 14px;
+
+    background: rgba(255,255,255,.75);
+
+    padding: 7px 8px;
+    border-radius: 10px;
+}
+
+/* Alt mesaj */
+
+#mesaj {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 30px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    color: #173b20;
+
+    padding: 0 15px;
+}
+
+/* Sonuç ekranı */
+
+#sonuc {
+
+    display: none;
+
+    position: absolute;
+
+    z-index: 20;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #164e24,
+            #287c39
+        );
+
+    color: white;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    padding: 25px;
+}
+
+#sonuc h2 {
+    font-size: 34px;
+    margin: 10px;
+}
+
+#sonuc p {
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+#tekrar {
+
+    margin-top: 20px;
+
+    border: 0;
+    border-radius: 15px;
+
+    padding: 16px 28px;
+
+    background: #ffd43b;
+    color: #263238;
+
+    font-size: 19px;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="oyun">
+
+    <div class="gunes"></div>
+
+    <div class="baslik">
+
+        <h1>🌳 Gökhan'ınkinin Şekli</h1>
+
+        <div class="soru">
+            Sence hangisi doğru?
+        </div>
+
+    </div>
+
+
+    <div class="agaclar">
+
+        <!-- CILIZ AĞAÇ -->
+
+        <div
+            class="secim cilz"
+            onclick="cevap('ciliz')">
+
+            <div class="tepe"></div>
+
+            <div class="govde"></div>
+
+            <div class="ad">
+                🌱 Cılız
+            </div>
+
+        </div>
+
+
+        <!-- ORTA AĞAÇ -->
+
+        <div
+            class="secim orta"
+            onclick="cevap('orta')">
+
+            <div class="tepe"></div>
+
+            <div class="govde"></div>
+
+            <div class="ad">
+                🌳 Orta Kalın
+            </div>
+
+        </div>
+
+
+        <!-- BÜYÜK AĞAÇ -->
+
+        <div
+            class="secim buyuk"
+            onclick="cevap('buyuk')">
+
+            <div class="tepe"></div>
+
+            <div class="govde"></div>
+
+            <div class="ad">
+                🌲 Büyük Kalın
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="mesaj">
+        Bir ağaca dokun! 👆
+    </div>
+
+
+    <div id="sonuc">
+
+        <h2 id="baslik"></h2>
+
+        <p id="yazi"></p>
+
+        <button id="tekrar"
+                onclick="yenidenOyna()">
+            🔄 Tekrar Oyna
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function cevap(secim) {
+
+    var sonuc = document.getElementById("sonuc");
+    var baslik = document.getElementById("baslik");
+    var yazi = document.getElementById("yazi");
+
+    if (secim === "buyuk") {
+
+        /* DOĞRU CEVAP */
+
+        baslik.innerHTML =
+            "🎉 EVET!";
+
+        yazi.innerHTML =
+            "Büyük ağacın dalı eğri olur! 🌳<br><br>" +
+            "🏆 TEBRİKLER!<br>" +
+            "Doğru ağacı buldun.";
+
+        sonuc.style.display = "flex";
+
+    } else {
+
+        /* YANLIŞ CEVAP */
+
+        baslik.innerHTML =
+            "❌ Bilemedin!";
+
+        yazi.innerHTML =
+            "Bu ağaç doğru değildi. 😄<br><br>" +
+            "Tekrar dene ve büyük kalın ağacı seç! 🌳";
+
+        sonuc.style.display = "flex";
+    }
+}
+
+
+function yenidenOyna() {
+
+    document.getElementById("sonuc").style.display = "none";
+
+}
+
+</script>
+
+</body>
+
+</html>
